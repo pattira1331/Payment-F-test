@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cute Payment System ✨</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ตั้งค่าฟอนต์น่ารัก และ ลายจุด Polka Dot ที่พื้นหลัง */
+        body {
+            font-family: 'Itim', cursive, sans-serif;
+            background-color: #ffe4e6;
+            background-image: radial-gradient(#ffb7c5 1.5px, transparent 1.5px), radial-gradient(#ffb7c5 1.5px, #ffe4e6 1.5px);
+            background-size: 30px 30px;
+            background-position: 0 0, 15px 15px;
+        }
+        /* อนิเมชันดุ๊กดิ๊กเบาๆ ให้ดูไม่น่าเบื่อ */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+        .cute-float { animation: float 3s ease-in-out infinite; }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4 antialiased">
+
+    <div class="bg-white/95 rounded-[2.5rem] shadow-[0_15px_30px_rgba(255,182,193,0.4)] p-6 w-full max-w-md border-4 border-pink-200 relative overflow-hidden backdrop-blur-sm">
+        
+        <span class="absolute top-4 left-6 text-pink-400 text-xl cute-float"><i class="fa-solid fa-heart"></i></span>
+        <span class="absolute top-12 right-6 text-yellow-400 text-xl cute-float" style="animation-delay: 1s;"><i class="fa-solid fa-star"></i></span>
+        <span class="absolute bottom-24 left-4 text-yellow-400 text-lg cute-float" style="animation-delay: 1.5px;"><i class="fa-solid fa-star"></i></span>
+        <span class="absolute bottom-4 right-8 text-pink-300 text-2xl cute-float" style="animation-delay: 0.5s;"><i class="fa-solid fa-heart"></i></span>
+
+        <div class="flex justify-center mb-6">
+            <div class="w-48 h-48 bg-pink-50 rounded-[2rem] flex items-center justify-center overflow-hidden border-4 border-pink-300 shadow-inner relative group">
+                <span class="absolute top-2 left-2 text-pink-200 text-xs"><i class="fa-solid fa-heart"></i></span>
+                <span class="absolute bottom-2 right-2 text-pink-200 text-xs"><i class="fa-solid fa-star"></i></span>
+                <img src="https://placehold.co/400x400/ffecf0/ff69b4?text=My+Photo+1:1" alt="Account Banner" class="w-full h-full object-cover">
+            </div>
+        </div>
+
+        <h2 class="text-center text-2xl font-bold text-pink-600 mb-5 flex items-center justify-center gap-2">
+            💕 ช่องทางชำระเงิน 💕
+        </h2>
+
+        <div class="bg-emerald-50 rounded-2xl p-4 border-3 border-emerald-200 shadow-sm relative overflow-hidden mb-4">
+            <div class="flex items-center gap-3 mb-2">
+                <div class="w-10 h-10 bg-[#138f2d] rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-sm shrink-0">
+                    K
+                </div>
+                <div>
+                    <p class="text-xs text-emerald-700 font-bold">ธนาคารกสิกรไทย (K-Bank)</p>
+                    <h3 class="font-bold text-slate-700 leading-tight">น.ส. พาสเทล ใจดี</h3>
+                </div>
+            </div>
+            <div class="bg-white rounded-xl p-2.5 flex items-center justify-between border-2 border-emerald-100">
+                <p id="kbank-num" class="font-mono text-lg font-bold text-slate-700 tracking-wide pl-2">123-4-56789-0</p>
+                <button onclick="copyNumber('kbank-num', 'btn-k-text', 'btn-k-icon')" class="bg-emerald-500 hover:bg-emerald-600 text-white px-3 py-1.5 rounded-lg transition-all flex items-center gap-1 text-sm active:scale-95">
+                    <i id="btn-k-icon" class="fa-regular fa-copy"></i>
+                    <span id="btn-k-text">คัดลอก</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="bg-orange-50 rounded-2xl p-4 border-3 border-orange-200 shadow-sm relative overflow-hidden mb-5">
+            <div class="flex items-center gap-3 mb-2">
+                <div class="w-10 h-10 bg-gradient-to-br from-orange-500 to-amber-500 rounded-xl flex items-center justify-center text-white font-black text-xs shadow-sm shrink-0">
+                    TMW
+                </div>
+                <div>
+                    <p class="text-xs text-orange-700 font-bold">ทรูมันนี่ วอลเล็ท (TrueMoney)</p>
+                    <h3 class="font-bold text-slate-700 leading-tight">น.ส. พาสเทล ใจดี</h3>
+                </div>
+            </div>
+            <div class="bg-white rounded-xl p-2.5 flex items-center justify-between border-2 border-orange-100">
+                <p id="tmw-num" class="font-mono text-lg font-bold text-slate-700 tracking-wide pl-2">089-123-4567</p>
+                <button onclick="copyNumber('tmw-num', 'btn-t-text', 'btn-t-icon')" class="bg-orange-500 hover:bg-orange-600 text-white px-3 py-1.5 rounded-lg transition-all flex items-center gap-1 text-sm active:scale-95">
+                    <i id="btn-t-icon" class="fa-regular fa-copy"></i>
+                    <span id="btn-t-text">คัดลอก</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="bg-pink-50 rounded-2xl p-4 mb-5 border-3 border-pink-100 relative">
+            <span class="absolute -top-3 -right-2 text-yellow-400 text-lg rotate-12"><i class="fa-solid fa-crown"></i></span>
+            <h4 class="text-sm font-bold text-pink-600 mb-1 flex items-center gap-1">
+                <i class="fa-solid fa-star text-yellow-400"></i> ข้อแนะนำตัวโตๆ
+            </h4>
+            <p class="text-xs text-slate-600 leading-relaxed">
+                หวานใจคนไหนโอนแล้ว รบกวนส่งสลิปแจ้งแม่ค้าในแชทด้วยน้าา~ ตรวจสอบยอดเงินให้ถูกต้องก่อนกดยืนยันทุกครั้งนะคะ ขอบคุณที่อุดหนุนค่า 💖
+            </p>
+        </div>
+
+        <div class="space-y-4">
+            <div>
+                <label class="block text-sm font-bold text-slate-600 mb-1.5 text-center">👇 ใส่จำนวนเงินตรงนี้เลยจ้า 👇</label>
+                <div class="relative">
+                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-pink-400 font-bold text-xl">฿</span>
+                    <input type="number" id="amount-input" placeholder="0.00" min="0" step="0.01"
+                           class="w-full pl-9 pr-4 py-3 bg-pink-50/50 border-3 border-pink-200 rounded-2xl focus:outline-none focus:ring-4 focus:ring-pink-300 focus:bg-white text-center font-bold text-pink-600 text-xl transition-all">
+                </div>
+            </div>
+
+            <button onclick="generateCuteQR()" class="w-full bg-pink-500 hover:bg-pink-600 text-white text-lg font-bold py-3.5 rounded-2xl transition-all shadow-[0_4px_10px_rgba(236,72,153,0.3)] active:scale-95 flex items-center justify-center gap-2 cursor-pointer border-b-4 border-pink-700">
+                <i class="fa-solid fa-qrcode"></i> กดสร้าง QR Code สแกนจ่าย
+            </button>
+        </div>
+
+        <div id="qr-container" class="hidden mt-6 pt-6 border-t-4 border-dashed border-pink-100 flex flex-col items-center">
+            <p class="text-xs font-bold text-slate-500 mb-3 bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full"><i class="fa-solid fa-sparkles"></i> เปิดแอปธนาคารมาสแกนได้เลยค๊าา</p>
+            
+            <div class="bg-white p-4 rounded-[2rem] shadow-md border-4 border-pink-300 relative">
+                <span class="absolute -top-2 -left-2 text-pink-400"><i class="fa-solid fa-heart"></i></span>
+                <span class="absolute -bottom-2 -right-2 text-yellow-400"><i class="fa-solid fa-star"></i></span>
+                <img id="qr-image" src="" alt="PromptPay QR Code" class="w-56 h-56 rounded-xl">
+            </div>
+
+            <button onclick="downloadQR()" class="mt-4 bg-slate-800 hover:bg-slate-700 text-white font-bold px-5 py-2.5 rounded-xl transition-all text-sm flex items-center gap-2 shadow-sm active:scale-95 cursor-pointer">
+                <i class="fa-solid fa-arrow-down-to-line"></i> บันทึกรูปภาพ QR Code
+            </button>
+
+            <p class="text-xs font-bold text-pink-400 mt-4 flex items-center gap-1.5">
+                <i class="fa-solid fa-heart animate-pulse"></i> ขอบคุณที่อุดหนุนนะคะ ยินดีให้บริการค่ะ
+            </p>
+        </div>
+
+    </div>
+
+    <script>
+        // ฟังก์ชันคัดลอกเลขบัญชีแบบระบุ ID (แชร์ฟังก์ชันร่วมกัน)
+        function copyNumber(elementId, textId, iconId) {
+            const numText = document.getElementById(elementId).innerText.replace(/-/g, ''); // ลบขีดออกตอนก๊อปปี้ไปวางจะได้ง่าย
+            
+            navigator.clipboard.writeText(numText).then(() => {
+                const copyText = document.getElementById(textId);
+                const copyIcon = document.getElementById(iconId);
+                
+                const oldText = copyText.innerText;
+                copyText.innerText = "สำเร็จ! 💕";
+                copyIcon.className = "fa-solid fa-check text-yellow-200";
+                
+                setTimeout(() => {
+                    copyText.innerText = oldText;
+                    copyIcon.className = "fa-regular fa-copy";
+                }, 2000);
+            }).catch(err => {
+                alert('ไม่สามารถคัดลอกได้โดยอัตโนมัติ กรุณาเลือกคัดลอกด้วยตัวเองนะคะ');
+            });
+        }
+
+        // ฟังก์ชันสร้าง QR Code สแกนจ่าย (PromptPay API)
+        function generateCuteQR() {
+            const promptpayID = "0891234567"; // ⚠️ เปลี่ยนเป็นเบอร์พร้อมเพย์หรือเลขบัตรประชาชนของคุณที่นี่
+            const amountInput = document.getElementById('amount-input').value;
+            const amount = parseFloat(amountInput) || 0;
+
+            if (amount <= 0) {
+                alert("ตะเองลืมใส่จำนวนเงิน หรือใส่เงินไม่ถูกต้องน้าา~ 🥺");
+                return;
+            }
+
+            const qrContainer = document.getElementById('qr-container');
+            const qrImage = document.getElementById('qr-image');
+
+            // เรียกดึงรูป QR Code จาก API คุณภาพสูง
+            const qrUrl = `https://promptpay.io/${promptpayID}/${amount}.png`;
+            
+            qrImage.src = qrUrl;
+            qrContainer.classList.remove('hidden');
+            
+            // เลื่อนหน้าจอลงมาให้เห็น QR น่ารักๆ
+            qrContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // ฟังก์ชันดาวน์โหลด / บันทึกภาพ QR Code ลงเครื่อง
+        async function downloadQR() {
+            const qrImage = document.getElementById('qr-image');
+            if (!qrImage.src) return;
+
+            try {
+                // ดึงข้อมูลภาพจาก URL แปลงเป็น Blob เพื่อเลี่ยงปัญหาการบล็อกดาวน์โหลดบนบางบราวเซอร์มือถือ
+                const response = await fetch(qrImage.src);
+                const blob = await response.blob();
+                const blobUrl = URL.createObjectURL(blob);
+                
+                const link = document.createElement('a');
+                link.href = blobUrl;
+                link.download = `cute-qr-pay-${document.getElementById('amount-input').value || '0'}-baht.png`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                // ล้างหน่วยความจำ Blob
+                URL.revokeObjectURL(blobUrl);
+            } catch (error) {
+                // หากติดปัญหาฝั่งเครือข่าย ให้ใช้วิธีเปิดแท็บใหม่ให้ลูกค้ากดค้างเซฟเองเป็นแผนสำรอง
+                window.open(qrImage.src, '_blank');
+            }
+        }
+    </script>
+</body>
+</html>
