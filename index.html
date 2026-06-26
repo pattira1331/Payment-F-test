@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimal & Cute Payment ✨</title>
+
+    <meta property="og:title" content="ชำระเงิน - ชื่อร้านของคุณค้าบ ✨">
+    <meta property="og:description" content="ช่องทางการชำระเงินและระบบสร้าง PromptPay QR Code สแกนจ่ายง่ายๆ น่ารักมินิมอล 🤍">
+    <meta property="og:image" content="https://i.postimg.cc/prS8mYbD/0024594b97f138ff3990e3bd9d50d8f3.jpg">
+    <meta property="og:image:width" content="400">
+    <meta property="og:image:height" content="400">
+    <meta property="og:type" content="website">
+
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- นำเข้าฟอนต์ Mali สไตล์ลายมือน่ารัก ตัวบาง ไม่เทอะทะ -->
+    <link href="https://fonts.googleapis.com/css2?family=Mali:wght@200;300;400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Mali', cursive, sans-serif;
+            background-color: #fff4f6; 
+            background-image: radial-gradient(#FFC9D6 1.5px, transparent 1.5px);
+            background-size: 24px 24px;
+            color: #927A76;
+            padding-top: 40px; /* เพิ่มพื้นที่ด้านบนสำหรับรองรับของตกแต่งที่เยอะขึ้น */
+        }
+        
+        /* คอนโทรลระดับความหนาให้ผอมบาง น่ารัก ไม่ดูหนาหนัก */
+        font-light { font-weight: 200; }
+        font-normal { font-weight: 300; }
+        font-medium { font-weight: 300; }
+        font-bold { font-weight: 400; }
+
+        @keyframes cloudFloatSide {
+            0%, 100% { transform: translateX(0px) translateY(0px); }
+            50% { transform: translateX(20px) translateY(-10px); }
+        }
+        .bg-cloud-left { animation: cloudFloatSide 6s ease-in-out infinite; }
+        .bg-cloud-right { animation: cloudFloatSide 7s ease-in-out infinite 1.2s; }
+
+        /* แอนิเมชันสำหรับไอเทมสไตล์คาเฟ่ขยับแบบดุ๊กดิ๊ก */
+        @keyframes float1 {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(10deg); }
+        }
+        @keyframes float2 {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(-8deg); }
+        }
+        @keyframes float3 {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-10px) scale(1.1); }
+        }
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(-4deg); }
+            50% { transform: rotate(4deg); }
+        }
+        @keyframes bounceSlow {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-6px); }
+        }
+        
+        .cute-float-1 { animation: float1 4.5s ease-in-out infinite; }
+        .cute-float-2 { animation: float2 3.5s ease-in-out infinite; }
+        .cute-float-3 { animation: float3 4s ease-in-out infinite; }
+        .cute-wiggle { animation: wiggle 2s ease-in-out infinite; }
+        .cute-bounce { animation: bounceSlow 2.5s ease-in-out infinite; }
+
+        /* เพิ่มดีไซน์ขอบลูกไม้หยักลอนรอบตัวการ์ดเพื่อแก้ปัญหากรอบเรียบ */
+        .scallop-lace-card {
+            position: relative;
+            border: 2px solid #FFC9D6;
+        }
+        .scallop-lace-card::before {
+            content: "";
+            position: absolute;
+            inset: -8px;
+            border: 2px dashed #FFC9D6;
+            border-radius: 2.9rem;
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .click-pop-element {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            animation: popEffect 0.8s ease-out forwards;
+        }
+        @keyframes popEffect {
+            0% {
+                transform: translate(-50%, -50%) scale(0.3);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(1.3) rotate(var(--r));
+                opacity: 0;
+            }
+        }
+
+        .falling-star {
+            position: fixed;
+            top: -20px;
+            pointer-events: none;
+            z-index: 9998;
+            animation: starFall linear forwards;
+        }
+        @keyframes starFall {
+            0% {
+                transform: translateY(0) rotate(0deg) scale(0.8);
+                opacity: 0;
+            }
+            15% { opacity: var(--max-opacity, 0.7); }
+            85% { opacity: var(--max-opacity, 0.7); }
+            100% {
+                transform: translateY(105vh) rotate(360deg) scale(0.6);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-5 antialiased relative overflow-x-hidden select-none">
+
+    <!-- 🚩 [ตกแต่งเพิ่ม] ธงราวมินิมอลและกลุ่มเมฆพ่นประกายด้านบนสุด (ปรับขยับลงมาจากขอบ top-4 เพื่อความชัดเจน) -->
+    <div class="absolute top-4 left-0 right-0 h-24 pointer-events-none overflow-hidden z-20 flex justify-between px-10">
+        <!-- ธงราวฝั่งซ้าย -->
+        <div class="flex gap-1.5 opacity-60 mt-0 transform -rotate-2 cute-bounce">
+            <div class="w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-t-[18px] border-t-[#FFC9D6]"></div>
+            <div class="w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-t-[18px] border-t-white"></div>
+            <div class="w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-t-[18px] border-t-[#bfa7a4]"></div>
+            <div class="w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-t-[18px] border-t-[#ffe3e9]"></div>
+        </div>
+        <!-- ข้อความต้อนรับด้านบนสุดแบบกิ๊บเก๋ -->
+        <div class="text-center mt-3 hidden sm:block opacity-70 tracking-widest text-[11px] font-light bg-white/60 backdrop-blur-xs py-1 px-4 rounded-full border border-[#FFC9D6]/30 shadow-2xs cute-float-2">
+            <i class="fa-solid fa-sparkles text-[#FFC9D6] text-[9px] mr-1"></i> Sweet Home Cafe Studio <i class="fa-solid fa-heart text-[#FFC9D6] text-[9px] ml-1"></i>
+        </div>
+        <!-- ธงราวฝั่งขวา -->
+        <div class="flex gap-1.5 opacity-60 mt-0 transform rotate-2 cute-bounce" style="animation-delay: 0.5s;">
+            <div class="w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-t-[18px] border-t-[#ffe3e9]"></div>
+            <div class="w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-t-[18px] border-t-[#bfa7a4]"></div>
+            <div class="w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-t-[18px] border-t-white"></div>
+            <div class="w-0 h-0 border-l-[12px] border-l-transparent border-r-[12px] border-r-transparent border-t-[18px] border-t-[#FFC9D6]"></div>
+        </div>
+    </div>
+
+    <!-- 🍰 ส่วนตกแต่งบรรยากาศรอบๆ สไตล์โฮมคาเฟ่เกาหลีแบบจัดเต็มรอบทิศทาง -->
+    <div class="absolute inset-0 pointer-events-none hidden md:block overflow-hidden">
+        <!-- โซนด้านบนซ้าย (แก้โล่ง) -->
+        <div class="absolute top-[8%] left-[6%] text-white/70 bg-white/50 backdrop-blur-xs py-2 px-4 rounded-full shadow-2xs bg-cloud-left flex items-center gap-2 border border-[#FFC9D6]/30">
+            <i class="fa-solid fa-mug-hot text-[#FFC9D6] text-xs"></i> <span class="text-[11px] font-normal tracking-wider">Cafe time o'clock</span>
+        </div>
+        <span class="absolute top-[5%] left-[25%] text-[#FFC9D6]/70 text-2xl cute-float-1"><i class="fa-solid fa-cookie"></i></span>
+        <span class="absolute top-[16%] left-[18%] text-[#927A76]/50 text-xl cute-float-2"><i class="fa-solid fa-ice-cream"></i></span>
+        <span class="absolute top-[22%] left-[5%] text-[#FFC9D6]/40 text-2xl cute-wiggle"><i class="fa-solid fa-stroopwafel"></i></span>
+
+        <!-- โซนด้านกลางและล่างซ้าย -->
+        <span class="absolute bottom-[48%] left-[20%] text-[#927A76]/30 text-lg cute-float-3"><i class="fa-solid fa-seedling"></i></span>
+        <span class="absolute bottom-[35%] left-[24%] text-[#FFC9D6] text-3xl cute-float-3"><i class="fa-solid fa-cloud text-pink-100/80"></i></span>
+        <span class="absolute bottom-[18%] left-[6%] text-[#927A76]/30 text-2xl cute-float-1"><i class="fa-solid fa-utensils"></i></span>
+        <span class="absolute bottom-[45%] left-[7%] text-[#FFC9D6]/40 text-xl cute-wiggle"><i class="fa-solid fa-cake-slice"></i></span>
+
+        <!-- โซนด้านบนขวา (แก้โล่ง) -->
+        <div class="absolute top-[10%] right-[6%] text-white/70 bg-white/50 backdrop-blur-xs py-2 px-4 rounded-full shadow-2xs bg-cloud-right flex items-center gap-2 border border-[#FFC9D6]/30">
+            <span class="text-[11px] font-normal tracking-wider">Welcome Sweet Tooth</span> <i class="fa-solid fa-heart text-[#FFC9D6]"></i>
+        </div>
+        <span class="absolute top-[4%] right-[25%] text-[#927A76]/40 text-3xl cute-float-2"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
+        <span class="absolute top-[18%] right-[19%] text-[#FFC9D6]/70 text-xl cute-float-1"><i class="fa-solid fa-cookie-bite"></i></span>
+        <span class="absolute top-[25%] right-[4%] text-[#FFC9D6]/50 text-xl cute-bounce"><i class="fa-solid fa-donut"></i></span>
+
+        <!-- โซนด้านกลางและล่างขวา -->
+        <span class="absolute bottom-[52%] right-[8%] text-[#927A76]/30 text-xl cute-wiggle"><i class="fa-solid fa-candy-cane"></i></span>
+        <span class="absolute bottom-[28%] right-[22%] text-[#FFC9D6] text-3xl cute-float-3"><i class="fa-solid fa-cloud text-pink-100/80"></i></span>
+        <span class="absolute bottom-[15%] right-[8%] text-[#FFC9D6]/50 text-2xl cute-float-2"><i class="fa-solid fa-sparkles"></i></span>
+        <span class="absolute bottom-[40%] right-[5%] text-[#FFC9D6]/40 text-xl cute-wiggle"><i class="fa-solid fa-hotdog"></i></span>
+    </div>
+    <div class="relative w-full max-w-sm my-6 z-10">
+        <!-- เงากล่องสไตล์ 3D ซ้อนเลเยอร์ด้านหลัง -->
+        <div class="absolute inset-0 bg-[#FFC9D6]/30 rounded-[2.8rem] transform translate-x-2 translate-y-2 pointer-events-none border border-[#FFC9D6]/40"></div>
+        
+        <!-- ตัวการ์ดหลักอัปเกรดเป็นดีไซน์ scallop-lace-card เพื่อเพิ่มดีเทลความน่ารัก -->
+        <div class="bg-white rounded-[2.6rem] shadow-[0_15px_40px_rgba(255,201,214,0.3)] p-7 relative backdrop-blur-xs scallop-lace-card">
+            
+            <!-- 🎀 ตกแต่งริบบิ้นจิ๋ว/หัวใจ สี่มุมของกรอบด้านในให้ดูไม่โล่งและทวีความคิ้วท์ -->
+            <div class="absolute top-4 left-4 text-[#FFC9D6]/60 text-xs cute-float-1"><i class="fa-solid fa-heart"></i></div>
+            <div class="absolute bottom-4 left-4 text-[#FFC9D6]/60 text-xs cute-float-2"><i class="fa-solid fa-sparkles"></i></div>
+            <div class="absolute bottom-4 right-4 text-[#FFC9D6]/60 text-xs cute-float-3"><i class="fa-solid fa-heart"></i></div>
+
+            <!-- 🎀 ป้ายริบบิ้นแฮนด์เมดด้านบนขวาของการ์ด -->
+            <div class="absolute -top-3.5 -right-2 bg-[#FFC9D6] text-white text-[10px] font-normal px-2.5 py-0.5 rounded-md shadow-2xs rotate-12 border border-white/40 tracking-wider cute-wiggle z-30">
+                <i class="fa-solid fa-ribbon mr-1"></i> Home Cafe ✨
+            </div>
+
+            <!-- ส่วนหัวชื่อร้านพร้อมลายลูกไม้ไข่ปลาประดับกรอบ -->
+            <div class="flex items-center gap-4 mb-5 bg-[#FFC9D6]/10 p-3 rounded-2xl border-2 border-dashed border-[#FFC9D6]/40 relative overflow-hidden">
+                <span class="absolute top-1 right-2 text-[#927A76]/30 text-[11px] cute-float-2"><i class="fa-solid fa-sparkles"></i></span>
+                <span class="absolute bottom-1 right-10 text-[#FFC9D6]/40 text-xs cute-float-1"><i class="fa-solid fa-mug-saucer"></i></span>
+                
+                <div class="w-14 h-14 bg-white rounded-xl flex items-center justify-center overflow-hidden border-2 border-[#FFC9D6]/40 shadow-xs shrink-0">
+                    <img src="https://i.postimg.cc/prS8mYbD/0024594b97f138ff3990e3bd9d50d8f3.jpg" alt="Shop Logo" class="w-full h-full object-cover">
+                </div>
+                <div class="leading-tight">
+                    <p class="text-[11px] font-normal text-[#927A76]/70 tracking-wider uppercase flex items-center gap-1">✨ Welcome to Cafe</p>
+                    <h1 class="text-sm font-medium text-[#927A76]">ชื่อร้านของคุณค้าบ ✨</h1>
+                </div>
+            </div>
+
+            <!-- ส่วนป้ายแบนเนอร์บัญชี อัปเกรดขอบให้เป็นแบบซ้อนสองชั้นน่ารักๆ -->
+            <div class="flex flex-col items-center mb-6 bg-white border-2 border-dashed border-[#FFC9D6]/40 shadow-xs rounded-2xl p-4 relative overflow-hidden">
+                <span class="absolute top-1.5 left-3 text-[#927A76]/30 text-xs cute-float-1"><i class="fa-solid fa-star"></i></span>
+                <span class="absolute bottom-1.5 right-3 text-[#FFC9D6] text-xs cute-float-2"><i class="fa-solid fa-heart"></i></span>
+                
+                <div class="w-40 h-40 bg-stone-50 rounded-xl flex items-center justify-center overflow-hidden border border-stone-200/60 mb-3 shadow-inner">
+                    <img id="banner-image" src="https://placehold.co/400x400/faf8f5/e0cfca?text=Account+Banner" alt="Account Banner" class="w-full h-full object-cover">
+                </div>
+                <button onclick="downloadBanner()" class="text-[11px] font-normal text-[#927A76] hover:text-white flex items-center gap-1.5 bg-[#FFC9D6]/20 hover:bg-[#FFC9D6] border border-[#FFC9D6]/40 px-3 py-1 rounded-full transition-all active:scale-95 cursor-pointer shadow-2xs hover:-translate-y-0.5">
+                    <i class="fa-solid fa-download text-[#927A76] text-[10px] group-hover:text-white"></i> บันทึกป้ายบัญชีนี้
+                </button>
+            </div>
+
+            <h2 class="text-center text-xs font-normal text-[#927A76]/60 tracking-widest uppercase mb-4 flex items-center justify-center gap-2">
+                <span class="text-[#FFC9D6] cute-float-1"><i class="fa-solid fa-cookie"></i></span>
+                ช่องทางการชำระเงิน
+                <span class="text-[#927A76]/40 cute-float-2"><i class="fa-solid fa-wand-magic-sparkles"></i></span>
+            </h2>
+
+            <!-- ช่องบัญชีธนาคารกสิกร อัปเกรดขอบให้ดูนุ่มนวลมีสไตล์ขึ้น -->
+            <div class="bg-white rounded-2xl p-4 border-2 border-dashed border-[#FFC9D6]/30 shadow-2xs mb-3 transition-all hover:border-[#FFC9D6]/70 hover:shadow-xs relative overflow-hidden group">
+                <span class="absolute top-2 right-3 text-[#FFC9D6]/60 text-xs cute-float-3 group-hover:scale-110 transition-transform"><i class="fa-solid fa-heart"></i></span>
+                
+                <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-7 h-7 bg-[#138f2d] rounded-lg flex items-center justify-center text-white font-normal text-xs shadow-xs shrink-0">
+                            K
+                        </div>
+                        <div class="leading-tight">
+                            <p class="text-xs font-normal text-[#927A76]">ธนาคารกสิกรไทย</p>
+                            <p class="text-[11px] font-normal text-[#927A76]/50">น.ส. พาสเทล ใจดี</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center justify-between bg-stone-50/80 rounded-xl p-2 pl-3 border border-stone-100">
+                    <span id="kbank-num" class="font-mono text-xs font-normal text-[#927A76] tracking-wider">123-4-56789-0</span>
+                    <button onclick="copyNumber('kbank-num', 'btn-k-text')" class="text-xs font-normal text-[#927A76] hover:text-white bg-[#FFC9D6]/20 hover:bg-[#FFC9D6] border border-[#FFC9D6]/30 px-3 py-1 rounded-lg transition-all active:scale-95 cursor-pointer shadow-2xs hover:-translate-y-0.5">
+                        <span id="btn-k-text">คัดลอก</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- ช่องบัญชีทรูมันนี่วอลเล็ท อัปเกรดขอบเป็นเส้นประเข้าชุดกัน -->
+            <div class="bg-white rounded-2xl p-4 border-2 border-dashed border-[#FFC9D6]/30 shadow-2xs mb-5 transition-all hover:border-[#FFC9D6]/70 hover:shadow-xs relative overflow-hidden group">
+                <span class="absolute top-2 right-3 text-[#927A76]/30 text-xs cute-float-1 group-hover:scale-110 transition-transform"><i class="fa-solid fa-star"></i></span>
+                
+                <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-7 h-7 bg-[#ff8c00] rounded-lg flex items-center justify-center text-white font-normal text-[10px] shadow-xs shrink-0">
+                            TM
+                        </div>
+                        <div class="leading-tight">
+                            <p class="text-xs font-normal text-[#927A76]">ทรูมันนี่ วอลเล็ท</p>
+                            <p class="text-[11px] font-normal text-[#927A76]/50">น.ส. พาสเทล ใจดี</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center justify-between bg-stone-50/80 rounded-xl p-2 pl-3 border border-stone-100">
+                    <span id="tmw-num" class="font-mono text-xs font-normal text-[#927A76] tracking-wider">089-123-4567</span>
+                    <button onclick="copyNumber('tmw-num', 'btn-t-text')" class="text-xs font-normal text-[#927A76] hover:text-white bg-[#FFC9D6]/20 hover:bg-[#FFC9D6] border border-[#FFC9D6]/30 px-3 py-1 rounded-lg transition-all active:scale-95 cursor-pointer shadow-2xs hover:-translate-y-0.5">
+                        <span id="btn-t-text">คัดลอก</span>
+                    </button>
+                </div>
+            </div>
+            <!-- กล่องข้อความแจ้งเตือน ตกแต่งเพิ่มไอคอนขนมเค้กและหัวใจให้เข้าธีม -->
+            <div class="bg-[#FFC9D6]/10 rounded-2xl p-3.5 mb-5 border border-[#FFC9D6]/30 relative overflow-hidden shadow-2xs">
+                <span class="absolute -bottom-2 left-2 text-[#FFC9D6]/50 text-base cute-float-2"><i class="fa-solid fa-cake-slice"></i></span>
+                <span class="absolute -top-1 right-3 text-[#927A76]/20 text-xs cute-float-1"><i class="fa-solid fa-sparkles"></i></span>
+                
+                <p class="text-[11px] font-normal text-[#927A76]/80 leading-relaxed text-center relative z-10">
+                    กรุณาตรวจสอบยอดเงินและชื่อบัญชีก่อนกดยืนยันการโอนทุกครั้ง <br>เมื่อโอนเงินเรียบร้อยแล้ว สามารถส่งสลิปทางแชทได้เลยค่ะ 🤍
+                </p>
+            </div>
+
+            <!-- ส่วนฟอร์มกรอกจำนวนเงินและปุ่มสร้างคิวอาร์ -->
+            <div class="space-y-3 mb-6">
+                <div class="relative group">
+                    <span class="absolute left-4 top-1/2 -translate-y-1/2 text-[#FFC9D6] font-normal text-base group-focus-within:scale-110 transition-transform">฿</span>
+                    <input type="number" id="amount-input" placeholder="ระบุจำนวนเงิน (บาท)" min="0" step="0.01"
+                           class="w-full pl-9 pr-4 py-2.5 bg-stone-50/70 border-2 border-stone-100 rounded-xl focus:outline-none focus:border-[#FFC9D6] focus:bg-white text-center font-normal text-[#927A76] text-xs transition-all placeholder:text-[#927A76]/40 placeholder:font-normal shadow-inner">
+                </div>
+
+                <button onclick="generateMinimalQR()" class="w-full bg-[#FFC9D6] hover:bg-[#fcaec0] text-white text-xs font-normal py-3 rounded-xl transition-all shadow-xs active:scale-[0.98] hover:shadow-sm cursor-pointer tracking-wider hover:-translate-y-0.5 flex items-center justify-center gap-1.5 border border-white/40">
+                    <i class="fa-solid fa-qrcode"></i> สร้าง QR Code สแกนจ่าย
+                </button>
+            </div>
+
+            <!-- ส่วนช่องทางติดต่อร้านค้า -->
+            <div class="pt-4 border-t-2 border-dashed border-[#FFC9D6]/30">
+                <p class="text-center text-[11px] font-normal text-[#927A76]/60 tracking-wider mb-3">ช่องทางติดต่อร้านค้า 💬</p>
+                <div class="space-y-2.5">
+                    <a href="https://facebook.com" target="_blank" class="w-full bg-[#FFC9D6] hover:bg-[#fcaec0] text-white text-xs font-normal py-3 px-4 rounded-xl transition-all shadow-xs active:scale-[0.98] hover:shadow-sm cursor-pointer tracking-wider hover:-translate-y-0.5 flex items-center border border-white/40 relative overflow-hidden group">
+                        <div class="flex items-center justify-center w-5 h-5 bg-white/20 rounded-lg mr-3 group-hover:scale-110 transition-transform">
+                            <i class="fa-brands fa-facebook text-sm text-white"></i>
+                        </div>
+                        <span class="font-normal text-white">Facebook Fanpage</span>
+                        <i class="fa-solid fa-chevron-right text-[10px] text-white/60 ml-auto group-hover:translate-x-0.5 transition-transform"></i>
+                    </a>
+                    
+                    <a href="https://line.me" target="_blank" class="w-full bg-[#FFC9D6] hover:bg-[#fcaec0] text-white text-xs font-normal py-3 px-4 rounded-xl transition-all shadow-xs active:scale-[0.98] hover:shadow-sm cursor-pointer tracking-wider hover:-translate-y-0.5 flex items-center border border-white/40 relative overflow-hidden group">
+                        <div class="flex items-center justify-center w-5 h-5 bg-white/20 rounded-lg mr-3 group-hover:scale-110 transition-transform">
+                            <i class="fa-brands fa-line text-sm text-white"></i>
+                        </div>
+                        <span class="font-normal text-white">Line Official Account</span>
+                        <i class="fa-solid fa-chevron-right text-[10px] text-white/60 ml-auto group-hover:translate-x-0.5 transition-transform"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- กล่องแสดงผลคิวอาร์โค้ดหลังจากกดสร้าง อัปเกรดกรอบคิวอาร์เป็นเส้นประสองชั้นเพิ่มความละมุน -->
+            <div id="qr-container" class="hidden mt-6 pt-5 border-t-2 border-dashed border-[#FFC9D6]/30 flex flex-col items-center relative">
+                <p class="text-[11px] font-normal text-[#927A76]/60 mb-3 flex items-center gap-1"><i class="fa-solid fa-circle-check text-emerald-400"></i> สแกนผ่านแอปธนาคารได้ทันที</p>
+                
+                <div class="bg-white p-3 rounded-2xl border-2 border-dashed border-[#FFC9D6]/60 shadow-xs relative">
+                    <span class="absolute -top-2.5 -left-2.5 text-[#FFC9D6] text-base cute-float-1"><i class="fa-solid fa-cookie"></i></span>
+                    <span class="absolute -bottom-2.5 -right-2.5 text-[#927A76]/40 text-base cute-float-3"><i class="fa-solid fa-ice-cream"></i></span>
+                    
+                    <img id="qr-image" src="" alt="PromptPay QR Code" class="w-48 h-48 rounded-xl shadow-2xs">
+                </div>
+
+                <button onclick="downloadQR()" class="mt-4 bg-white hover:bg-[#FFC9D6]/10 border border-[#FFC9D6]/30 text-[#927A76] font-normal px-4 py-2 rounded-xl transition-all text-xs flex items-center gap-1.5 shadow-2xs active:scale-95 cursor-pointer hover:-translate-y-0.5">
+                    <i class="fa-solid fa-arrow-down-to-line text-[#FFC9D6]"></i> บันทึกรูปภาพ QR Code
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // === 1. ฟังก์ชันเอฟเฟกต์กดหน้าจอ เพิ่มกิมมิกไอคอนขนมหวานและเมล็ดกาแฟสไตล์คาเฟ่สุ่มกระจาย ===
+        document.addEventListener('click', function(e) {
+            if (e.target.tagName === 'BUTTON' || e.target.tagName === 'INPUT' || e.target.tagName === 'A' || e.target.closest('button') || e.target.closest('a')) {
+                createCuteShower(e.clientX, e.clientY, 4);
+                return;
+            }
+            createCuteShower(e.clientX, e.clientY, 7);
+        });
+
+        function createCuteShower(pageX, pageY, count) {
+            const icons = ['fa-heart', 'fa-cookie', 'fa-mug-hot', 'fa-sparkles', 'fa-ice-cream', 'fa-donut'];
+            const colors = ['#FFC9D6', '#fcaec0', '#ffe3e9', '#927A76', '#bfa7a4'];
+            
+            for (let i = 0; i < count; i++) {
+                const element = document.createElement('i');
+                const chosenIcon = icons[Math.floor(Math.random() * icons.length)];
+                
+                if (chosenIcon === 'fa-heart') {
+                    element.className = 'fa-solid fa-heart click-pop-element';
+                } else if (chosenIcon === 'fa-cookie') {
+                    element.className = 'fa-solid fa-cookie click-pop-element';
+                } else if (chosenIcon === 'fa-mug-hot') {
+                    element.className = 'fa-solid fa-mug-hot click-pop-element';
+                } else if (chosenIcon === 'fa-ice-cream') {
+                    element.className = 'fa-solid fa-ice-cream click-pop-element';
+                } else if (chosenIcon === 'fa-donut') {
+                    element.className = 'fa-solid fa-donut click-pop-element';
+                } else {
+                    element.className = 'fa-solid fa-wand-magic-sparkles click-pop-element';
+                }
+                
+                element.style.color = colors[Math.floor(Math.random() * colors.length)];
+                element.style.fontSize = (Math.random() * 14 + 8) + 'px';
+                element.style.left = pageX + 'px';
+                element.style.top = pageY + 'px';
+                
+                const moveX = (Math.random() - 0.5) * 180;
+                const moveY = (Math.random() - 0.5) * 180 - 30;
+                const rotate = (Math.random() - 0.5) * 360;
+                
+                element.style.setProperty('--x', moveX + 'px');
+                element.style.setProperty('--y', moveY + 'px');
+                element.style.setProperty('--r', rotate + 'deg');
+                
+                document.body.appendChild(element);
+                
+                setTimeout(() => {
+                    element.remove();
+                }, 800);
+            }
+        }
+
+        // === 2. ฟังก์ชันเอฟเฟกต์ละอองดาว คุกกี้ และประกายร่วงหล่นละมุนตาอย่างต่อเนื่อง ===
+        window.addEventListener('DOMContentLoaded', () => {
+            for (let i = 0; i < 15; i++) {
+                createSingleFallingStar(true);
+            }
+            
+            setInterval(() => {
+                createSingleFallingStar(false);
+            }, 350);
+        });
+
+        function createSingleFallingStar(isInitialLoad) {
+            const star = document.createElement('i');
+            const items = ['fa-star', 'fa-cookie-bite', 'fa-wand-magic-sparkles', 'fa-sparkles', 'fa-cake-slice'];
+            const chosenIcon = items[Math.floor(Math.random() * items.length)];
+            
+            if (chosenIcon === 'fa-cookie-bite') {
+                star.className = 'fa-solid fa-cookie-bite falling-star';
+            } else if (chosenIcon === 'fa-wand-magic-sparkles') {
+                star.className = 'fa-solid fa-wand-magic-sparkles falling-star';
+            } else if (chosenIcon === 'fa-cake-slice') {
+                star.className = 'fa-solid fa-cake-slice falling-star';
+            } else if (chosenIcon === 'fa-sparkles') {
+                star.className = 'fa-solid fa-asterisk falling-star';
+            } else {
+                star.className = 'fa-solid fa-star falling-star';
+            }
+            
+            const colors = ['#927A76', '#FFC9D6', '#fff4f6', '#ffe3e9', '#bfa7a4'];
+            star.style.color = colors[Math.floor(Math.random() * colors.length)];
+            
+            const maxOpacity = Math.random() * 0.4 + 0.3;
+            star.style.setProperty('--max-opacity', maxOpacity);
+            
+            star.style.fontSize = (Math.random() * 10 + 6) + 'px'; 
+            star.style.left = (Math.random() * 100) + 'vw';
+            
+            const duration = Math.random() * 3 + 4;
+            star.style.animationDuration = duration + 's';
+            
+            if (isInitialLoad) {
+                star.style.top = (Math.random() * 80) + 'vh';
+            }
+            
+            document.body.appendChild(star);
+            
+            setTimeout(() => {
+                star.remove();
+            }, duration * 1000);
+        }
+
+        // === 3. ฟังก์ชันระบบจัดการคัดลอกและสร้างภาพ QR Code หลัก ===
+        function copyNumber(elementId, textId) {
+            const numText = document.getElementById(elementId).innerText.replace(/-/g, '');
+            
+            navigator.clipboard.writeText(numText).then(() => {
+                const copyText = document.getElementById(textId);
+                const oldText = copyText.innerText;
+                
+                copyText.innerText = "คัดลอกแล้ว 🤍";
+                
+                setTimeout(() => {
+                    copyText.innerText = oldText;
+                }, 2000);
+            }).catch(err => {
+                alert('กรุณาเลือกคัดลอกด้วยตัวเองนะคะ');
+            });
+        }
+
+        function generateMinimalQR() {
+            const promptpayID = "0891234567"; // ⚠️ เปลี่ยนเป็นเบอร์พร้อมเพย์ของคุณที่นี่
+            const amountInput = document.getElementById('amount-input').value;
+            const amount = parseFloat(amountInput) || 0;
+
+            if (amount <= 0) {
+                alert("กรุณากรอกจำนวนเงินที่ถูกต้องก่อนน้าา~ 🥺");
+                return;
+            }
+
+            const qrContainer = document.getElementById('qr-container');
+            const qrImage = document.getElementById('qr-image');
+
+            const qrUrl = `https://promptpay.io/${promptpayID}/${amount}.png`;
+            
+            qrImage.src = qrUrl;
+            qrContainer.classList.remove('hidden');
+            
+            qrContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        async function saveImageFromUrl(imageUrl, defaultName) {
+            try {
+                const response = await fetch(imageUrl);
+                const blob = await response.blob();
+                const blobUrl = URL.createObjectURL(blob);
+                
+                const link = document.createElement('a');
+                link.href = blobUrl;
+                link.download = defaultName;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                URL.revokeObjectURL(blobUrl);
+            } catch (error) {
+                window.open(imageUrl, '_blank');
+            }
+        }
+
+        function downloadBanner() {
+            const bannerImg = document.getElementById('banner-image');
+            saveImageFromUrl(bannerImg.src, 'shop-account-banner.png');
+        }
+
+        function downloadQR() {
+            const qrImage = document.getElementById('qr-image');
+            if (!qrImage.src) return;
+            const amount = document.getElementById('amount-input').value || '0';
+            saveImageFromUrl(qrImage.src, `qr-pay-${amount}-baht.png`);
+        }
+    </script>
+</body>
+</html>
+
