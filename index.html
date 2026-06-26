@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimal Payment ✨</title>
+    <!-- Tailwind CSS v4 -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- FontAwesome ไอคอน -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: ฟอนต์ 'Anuphan' มินิมอล ตัวบาง น่ารัก คลีนสายตา -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anuphan:wght@200;300;400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Anuphan', sans-serif;
+            background-color: #fff5f6; /* สีพื้นหลังขาวอมชมพู */
+            /* ลายจุด Polka dot สี FFC9D6 แบบมินิมอลน่ารักๆ */
+            background-image: radial-gradient(#FFC9D6 1.2px, transparent 1.2px);
+            background-size: 24px 24px;
+        }
+        /* อนิเมชันลอยดุ๊กดิ๊กนุ่มนวลสไตล์มินิมอล */
+        @keyframes floatMinimal {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(5deg); }
+        }
+        .mini-float { animation: floatMinimal 4s ease-in-out infinite; }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-5 antialiased relative overflow-x-hidden">
+
+    <!-- เอฟเฟกต์ หัวใจ ดาว ลูกอม ลอยดุ๊กดิ๊กอยู่รอบๆ การ์ดหลัก (อยู่นอกกล่องเพื่อไม่ให้บดบังข้อความ) -->
+    <div class="absolute inset-0 pointer-events-none hidden sm:block">
+        <span class="absolute top-[20%] left-[32%] text-[#FFC9D6] text-xl mini-float" style="animation-delay: 0s;"><i class="fa-solid fa-heart"></i></span>
+        <span class="absolute top-[15%] right-[32%] text-amber-200 text-lg mini-float" style="animation-delay: 1s;"><i class="fa-solid fa-star"></i></span>
+        <span class="absolute bottom-[25%] left-[30%] text-amber-200 text-base mini-float" style="animation-delay: 1.5s;"><i class="fa-solid fa-star"></i></span>
+        <span class="absolute bottom-[20%] right-[31%] text-[#FFC9D6] text-xl mini-float" style="animation-delay: 0.5s;"><i class="fa-solid fa-candy-cane"></i></span>
+    </div>
+
+    <!-- การ์ดหลัก สไตล์มินิมอล ขอบมน เรียบง่าย ไม่หนาทึบ -->
+    <div class="bg-white/95 rounded-[2rem] shadow-[0_10px_40px_rgba(255,201,214,0.15)] p-7 w-full max-w-sm border border-stone-100/80 relative backdrop-blur-sm">
+        
+        <!-- ไอคอนตกแต่งเล็กๆ มุมการ์ดเพิ่มความละมุน -->
+        <span class="absolute top-4 right-5 text-[#FFC9D6]/40 text-xs"><i class="fa-solid fa-star"></i></span>
+        <span class="absolute bottom-4 left-5 text-[#FFC9D6]/40 text-xs"><i class="fa-solid fa-heart"></i></span>
+
+        <!-- 1. ส่วนหัว: รูปโลโก้ร้าน (1:1) + ชื่อร้านด้านข้าง -->
+        <div class="flex items-center gap-4 mb-6 bg-stone-50/50 p-3 rounded-2xl border border-stone-100">
+            <!-- กรอบใส่รูปโลโก้ร้าน -->
+            <div class="w-16 h-16 bg-white rounded-xl flex items-center justify-center overflow-hidden border border-stone-200/60 shadow-sm shrink-0">
+                <!-- ⚠️ เปลี่ยนลิงก์รูปโลโก้ร้านค้าของคุณตรงนี้ -->
+                <img src="https://placehold.co/150x150/fff5f6/ffc9d6?text=LOGO" alt="Shop Logo" class="w-full h-full object-cover">
+            </div>
+            <!-- ชื่อร้านค้า -->
+            <div class="leading-tight">
+                <p class="text-[11px] font-normal text-stone-400 tracking-wider uppercase">Welcome to</p>
+                <h1 class="text-base font-medium text-stone-700">ชื่อร้านของคุณค้าบ ✨</h1>
+            </div>
+        </div>
+
+        <h2 class="text-center text-sm font-medium text-stone-500 tracking-widest uppercase mb-4">
+            — ช่องทางการชำระเงิน —
+        </h2>
+
+        <!-- 2. กรอบเลขบัญชี กสิกรไทย สไตล์มินิมอล -->
+        <div class="bg-white rounded-xl p-4 border border-stone-200/80 mb-3 transition-all hover:border-stone-300">
+            <div class="flex items-center justify-between mb-3">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-7 h-7 bg-[#138f2d] rounded-lg flex items-center justify-center text-white font-medium text-sm shadow-sm shrink-0">
+                        K
+                    </div>
+                    <div class="leading-tight">
+                        <p class="text-xs font-medium text-stone-700">ธนาคารกสิกรไทย</p>
+                        <p class="text-[11px] font-normal text-stone-400">น.ส. พาสเทล ใจดี</p>
+                    </div>
+                </div>
+            </div>
+            <div class="flex items-center justify-between bg-stone-50 rounded-lg p-2 pl-3 border border-stone-100">
+                <span id="kbank-num" class="font-mono text-sm font-medium text-stone-600 tracking-wider">123-4-56789-0</span>
+                <button onclick="copyNumber('kbank-num', 'btn-k-text')" class="text-xs font-normal text-stone-500 hover:text-stone-800 bg-white border border-stone-200/60 px-2.5 py-1 rounded-md transition-all active:scale-95 cursor-pointer">
+                    <span id="btn-k-text">คัดลอก</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 3. กรอบเลขบัญชี TrueMoney Wallet สไตล์มินิมอล -->
+        <div class="bg-white rounded-xl p-4 border border-stone-200/80 mb-5 transition-all hover:border-stone-300">
+            <div class="flex items-center justify-between mb-3">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-7 h-7 bg-[#ff8c00] rounded-lg flex items-center justify-center text-white font-medium text-[10px] shadow-sm shrink-0">
+                        TM
+                    </div>
+                    <div class="leading-tight">
+                        <p class="text-xs font-medium text-stone-700">ทรูมันนี่ วอลเล็ท</p>
+                        <p class="text-[11px] font-normal text-stone-400">น.ส. พาสเทล ใจดี</p>
+                    </div>
+                </div>
+            </div>
+            <div class="flex items-center justify-between bg-stone-50 rounded-lg p-2 pl-3 border border-stone-100">
+                <span id="tmw-num" class="font-mono text-sm font-medium text-stone-600 tracking-wider">089-123-4567</span>
+                <button onclick="copyNumber('tmw-num', 'btn-t-text')" class="text-xs font-normal text-stone-500 hover:text-stone-800 bg-white border border-stone-200/60 px-2.5 py-1 rounded-md transition-all active:scale-95 cursor-pointer">
+                    <span id="btn-t-text">คัดลอก</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 4. กรอบรายละเอียดข้อแนะนำ -->
+        <div class="bg-stone-50/60 rounded-xl p-3.5 mb-5 border border-stone-200/40">
+            <p class="text-[11px] font-normal text-stone-500 leading-relaxed text-center">
+                กรุณาตรวจสอบยอดเงินและชื่อบัญชีก่อนกดยืนยันการโอนทุกครั้ง <br>เมื่อโอนเงินเรียบร้อยแล้ว สามารถส่งสลิปทางแชทได้เลยค่ะ 🤍
+            </p>
+        </div>
+
+        <!-- 5. ส่วนกรอกจำนวนเงิน -->
+        <div class="space-y-3">
+            <div class="relative">
+                <span class="absolute left-4 top-1/2 -translate-y-1/2 text-stone-400 font-light text-base">฿</span>
+                <input type="number" id="amount-input" placeholder="ระบุจำนวนเงิน (บาท)" min="0" step="0.01"
+                       class="w-full pl-9 pr-4 py-2.5 bg-stone-50 border border-stone-200 rounded-xl focus:outline-none focus:border-stone-400 text-center font-medium text-stone-700 text-sm transition-all placeholder:text-stone-300 placeholder:font-normal">
+            </div>
+
+            <button onclick="generateMinimalQR()" class="w-full bg-stone-800 hover:bg-stone-900 text-white text-xs font-medium py-3 rounded-xl transition-all shadow-sm active:scale-[0.98] cursor-pointer tracking-wider">
+                สร้าง QR Code สแกนจ่าย
+            </button>
+        </div>
+
+        <!-- 6. ส่วนแสดง QR Code และปุ่มบันทึกภาพ -->
+        <div id="qr-container" class="hidden mt-6 pt-5 border-t border-dashed border-stone-200 flex flex-col items-center">
+            <p class="text-[11px] font-normal text-stone-400 mb-3">สแกนผ่านแอปธนาคารได้ทันที</p>
+            
+            <div class="bg-white p-3 rounded-xl border border-stone-200 shadow-sm">
+                <img id="qr-image" src="" alt="PromptPay QR Code" class="w-48 h-48 rounded-lg">
+            </div>
+
+            <button onclick="downloadQR()" class="mt-4 bg-white border border-stone-200 hover:bg-stone-50 text-stone-600 font-normal px-4 py-2 rounded-lg transition-all text-xs flex items-center gap-1.5 shadow-sm active:scale-95 cursor-pointer">
+                <i class="fa-solid fa-arrow-down-to-line text-stone-400"></i> บันทึกรูปภาพ QR Code
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        // ฟังก์ชันคัดลอกเลขบัญชีแบบระบุ ID
+        function copyNumber(elementId, textId) {
+            const numText = document.getElementById(elementId).innerText.replace(/-/g, '');
+            
+            navigator.clipboard.writeText(numText).then(() => {
+                const copyText = document.getElementById(textId);
+                const oldText = copyText.innerText;
+                
+                copyText.innerText = "คัดลอกแล้ว";
+                copyText.style.color = "#138f2d";
+                
+                setTimeout(() => {
+                    copyText.innerText = oldText;
+                    copyText.style.color = "";
+                }, 2000);
+            }).catch(err => {
+                alert('กรุณาเลือกคัดลอกด้วยตัวเองนะคะ');
+            });
+        }
+
+        // ฟังก์ชันสร้าง QR Code สแกนจ่าย (PromptPay API)
+        function generateMinimalQR() {
+            const promptpayID = "0891234567"; // ⚠️ เปลี่ยนเป็นเบอร์พร้อมเพย์ของคุณที่นี่
+            const amountInput = document.getElementById('amount-input').value;
+            const amount = parseFloat(amountInput) || 0;
+
+            if (amount <= 0) {
+                alert("กรุณากรอกจำนวนเงินที่ถูกต้องก่อนน้าา~");
+                return;
+            }
+
+            const qrContainer = document.getElementById('qr-container');
+            const qrImage = document.getElementById('qr-image');
+
+            const qrUrl = `https://promptpay.io/${promptpayID}/${amount}.png`;
+            
+            qrImage.src = qrUrl;
+            qrContainer.classList.remove('hidden');
+            
+            qrContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // ฟังก์ชันดาวน์โหลดรูปภาพ QR Code ลงเครื่อง
+        async function downloadQR() {
+            const qrImage = document.getElementById('qr-image');
+            if (!qrImage.src) return;
+
+            try {
+                const response = await fetch(qrImage.src);
+                const blob = await response.blob();
+                const blobUrl = URL.createObjectURL(blob);
+                
+                const link = document.createElement('a');
+                link.href = blobUrl;
+                link.download = `qr-pay-${document.getElementById('amount-input').value || '0'}-baht.png`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                URL.revokeObjectURL(blobUrl);
+            } catch (error) {
+                window.open(qrImage.src, '_blank');
+            }
+        }
+    </script>
+</body>
+</html>
